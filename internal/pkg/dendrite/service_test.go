@@ -3,6 +3,7 @@ package dendrite
 import (
 	"context"
 	"log"
+	"os"
 	"reflect"
 	"testing"
 
@@ -25,7 +26,7 @@ type MetaData struct {
 	CurrentVersion int
 }
 
-const postgresDsn = "postgres://postgres:mysecretpassword@localhost:5432/config"
+var postgresDsn = os.Getenv("POSTGRES_DSN")
 
 var testConfig = []Config{
 	{
