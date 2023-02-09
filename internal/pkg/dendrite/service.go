@@ -2,12 +2,13 @@ package dendrite
 
 import (
 	"context"
-	"dendrite/internal/pkg/backend"
-	"dendrite/internal/pkg/dendrite/dto"
 	"errors"
 	"fmt"
 	"path"
 	"strings"
+
+	"github.com/laminatedio/dendrite/internal/pkg/backend"
+	"github.com/laminatedio/dendrite/internal/pkg/dendrite/dto"
 
 	"github.com/tmc/graphql"
 	"github.com/tmc/graphql/parser"

@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"dendrite/internal/pkg/config"
+	"github.com/laminatedio/dendrite/internal/pkg/config"
 )
 
 // configCmd represents the config command

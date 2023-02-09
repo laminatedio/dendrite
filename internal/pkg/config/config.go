@@ -1,9 +1,10 @@
 package config
 
 import (
-	"dendrite/internal/pkg/backend"
 	"fmt"
 	"os"
+
+	"github.com/laminatedio/dendrite/internal/pkg/backend"
 
 	"github.com/astaclinic/astafx/httpfx"
 	"github.com/astaclinic/astafx/loggerfx"

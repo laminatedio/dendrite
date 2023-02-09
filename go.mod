@@ -1,4 +1,4 @@
-module dendrite
+module github.com/laminatedio/dendrite
 
 go 1.18
 

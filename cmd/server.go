@@ -4,7 +4,7 @@ import (
 	"github.com/astaclinic/astafx/graceful"
 	"github.com/spf13/cobra"
 
-	"dendrite/internal/app"
+	"github.com/laminatedio/dendrite/internal/app"
 )
 
 // serverCmd represents the server command

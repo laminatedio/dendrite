@@ -2,11 +2,12 @@ package dendrite
 
 import (
 	"context"
-	"dendrite/internal/pkg/backend"
-	"dendrite/internal/pkg/dendrite/dto"
 	"log"
 	"reflect"
 	"testing"
+
+	"github.com/laminatedio/dendrite/internal/pkg/backend"
+	"github.com/laminatedio/dendrite/internal/pkg/dendrite/dto"
 
 	"github.com/jackc/pgx"
 	"github.com/jackc/pgx/v5/pgxpool"

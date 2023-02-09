@@ -1,6 +1,6 @@
 package main
 
-import "dendrite/cmd"
+import "github.com/laminatedio/dendrite/cmd"
 
 func main() {
 	cmd.Execute()

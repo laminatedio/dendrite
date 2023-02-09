@@ -4,9 +4,9 @@ import (
 	"github.com/astaclinic/astafx"
 	"go.uber.org/fx"
 
-	"dendrite/internal/pkg/backend"
-	"dendrite/internal/pkg/config"
-	"dendrite/internal/pkg/dendrite"
+	"github.com/laminatedio/dendrite/internal/pkg/backend"
+	"github.com/laminatedio/dendrite/internal/pkg/config"
+	"github.com/laminatedio/dendrite/internal/pkg/dendrite"
 )
 
 func New() *fx.App {

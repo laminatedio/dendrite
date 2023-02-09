@@ -1,9 +1,10 @@
 package dendrite
 
 import (
-	"dendrite/internal/pkg/backend"
-	"dendrite/internal/pkg/dendrite/dto"
 	"net/http"
+
+	"github.com/laminatedio/dendrite/internal/pkg/backend"
+	"github.com/laminatedio/dendrite/internal/pkg/dendrite/dto"
 
 	"github.com/gin-gonic/gin"
 )
