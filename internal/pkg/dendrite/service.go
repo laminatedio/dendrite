@@ -99,10 +99,10 @@ func (s *DendriteService) GetObjectByPaths(ctx context.Context, selections []dto
 					case []string:
 						u[subPath] = append(u[subPath].([]string), values...)
 					case map[string]any:
-						if len(values) > 1 {
-							u[subPath].(map[string]any)["/"] = values
+						if u[subPath].(map[string]any)["/"] != nil {
+							u[subPath].(map[string]any)["/"] = append(u[subPath].(map[string]any)["/"].([]string), values...)
 						} else {
-							u[subPath].(map[string]any)["/"] = values[0]
+							u[subPath].(map[string]any)["/"] = values
 						}
 					case nil:
 						if len(values) > 1 {

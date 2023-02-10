@@ -11,6 +11,7 @@ require (
 	github.com/onsi/gomega v1.26.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
+	github.com/stretchr/testify v1.8.1
 	github.com/tmc/graphql v0.0.0-20170602052103-08ddf3728865
 	go.uber.org/fx v1.18.2
 )
@@ -18,6 +19,7 @@ require (
 require (
 	github.com/cockroachdb/apd v1.1.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
@@ -26,7 +28,9 @@ require (
 	github.com/jackc/puddle/v2 v2.1.2 // indirect
 	github.com/lib/pq v1.10.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 )
 

@@ -7,17 +7,16 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/laminatedio/dendrite/internal/pkg/backend"
 	"github.com/laminatedio/dendrite/internal/pkg/dendrite/dto"
-
-	"github.com/jackc/pgx"
-	"github.com/jackc/pgx/v5/pgxpool"
+	backendmock "github.com/laminatedio/dendrite/mocks/internal_/pkg/backend"
 	"github.com/tmc/graphql"
 )
 
 type Config struct {
-	Path  string
-	Value string
+	Path   string
+	Values []string
 }
 
 type MetaData struct {
@@ -30,26 +29,22 @@ var postgresDsn = os.Getenv("POSTGRES_DSN")
 
 var testConfig = []Config{
 	{
-		Path:  "/A/B/C",
-		Value: "1",
+		Path:   "/A/B/C",
+		Values: []string{"1"},
 	},
 	{
-		Path:  "/A/B/D",
-		Value: "2",
+		Path:   "/A/B/D",
+		Values: []string{"2"},
 	},
 	{
-		Path:  "/A/B",
-		Value: "C",
-	},
-	{
-		Path:  "/A/B",
-		Value: "D",
+		Path:   "/A/B",
+		Values: []string{"C", "D"},
 	},
 }
 
 func ImportTestData(ctx context.Context, configs []Config, worker backend.Backend) error {
 	for _, config := range configs {
-		_, err := worker.Set(ctx, config.Path, config.Value, backend.SetOptions{KeepCurrent: false})
+		_, err := worker.SetMany(ctx, config.Path, config.Values, backend.SetOptions{KeepCurrent: false})
 		if err != nil {
 			return err
 		}
@@ -83,6 +78,10 @@ var postgres backend.PostgresBackend = GetPostgresBackend()
 var s = DendriteService{
 	backend: &postgres,
 }
+var mock = &backendmock.Backend{}
+var mockS = DendriteService{
+	backend: mock,
+}
 
 // integration test (need db)
 func TestDendriteService_Query(t *testing.T) {
@@ -98,7 +97,7 @@ func TestDendriteService_Query(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "get data by query",
+			name:    "should get data by query",
 			configs: testConfig,
 			args: args{
 				ctx: context.Background(),
@@ -126,15 +125,15 @@ func TestDendriteService_Query(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "get version 2",
+			name: "should get version 2",
 			configs: []Config{
 				{
-					Path:  "/A",
-					Value: "1",
+					Path:   "/A",
+					Values: []string{"1"},
 				},
 				{
-					Path:  "/A",
-					Value: "2",
+					Path:   "/A",
+					Values: []string{"2"},
 				},
 			},
 			args: args{
@@ -149,7 +148,7 @@ func TestDendriteService_Query(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    "some key not found",
+			name:    "should have some key not found",
 			configs: testConfig,
 			args: args{
 				ctx: context.Background(),
@@ -174,7 +173,7 @@ func TestDendriteService_Query(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    "invalid query",
+			name:    "should be invalid query",
 			configs: testConfig,
 			args: args{
 				ctx:   context.Background(),
@@ -214,15 +213,11 @@ func TestDendriteService_Query(t *testing.T) {
 }
 
 func TestDendriteService_GetFieldVersion(t *testing.T) {
-	type fields struct {
-		postgres *pgx.Conn
-	}
 	type args struct {
 		args []graphql.Argument
 	}
 	tests := []struct {
 		name        string
-		fields      fields
 		args        args
 		testingData map[string]string
 		want        int
@@ -231,9 +226,6 @@ func TestDendriteService_GetFieldVersion(t *testing.T) {
 		// TODO: Add test cases.
 		{
 			name: "should get version in args",
-			fields: fields{
-				postgres: nil,
-			},
 			args: args{
 				args: []graphql.Argument{
 					{
@@ -247,9 +239,6 @@ func TestDendriteService_GetFieldVersion(t *testing.T) {
 		},
 		{
 			name: "should get invalid version error",
-			fields: fields{
-				postgres: nil,
-			},
 			args: args{
 				args: []graphql.Argument{
 					{
@@ -263,9 +252,6 @@ func TestDendriteService_GetFieldVersion(t *testing.T) {
 		},
 		{
 			name: "should get not found version -1",
-			fields: fields{
-				postgres: nil,
-			},
 			args: args{
 				args: []graphql.Argument{},
 			},
@@ -273,9 +259,10 @@ func TestDendriteService_GetFieldVersion(t *testing.T) {
 			wantErr: false,
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.GetFieldVersion(tt.args.args)
+			got, err := mockS.GetFieldVersion(tt.args.args)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DendriteService.GetFieldVersion() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -288,34 +275,176 @@ func TestDendriteService_GetFieldVersion(t *testing.T) {
 }
 
 func TestDendriteService_GetSelectionsByField(t *testing.T) {
-	type fields struct {
-		backend backend.Backend
-	}
 	type args struct {
 		field graphql.Field
 		base  string
 	}
 	tests := []struct {
 		name    string
-		fields  fields
 		args    args
 		want    []dto.Selection
 		wantErr bool
 	}{
 		// TODO: Add test cases.
+		{
+			name: "should get the selections by field",
+			args: args{
+				field: graphql.Field{
+					Name: "A",
+					SelectionSet: graphql.SelectionSet{
+						{
+							Field: &graphql.Field{
+								Name: "B",
+								Arguments: graphql.Arguments{
+									{
+										Name:  "version",
+										Value: 1,
+									},
+								},
+							},
+						},
+						{
+							Field: &graphql.Field{
+								Name: "C",
+								SelectionSet: graphql.SelectionSet{
+									{
+										Field: &graphql.Field{
+											Name: "D",
+											Arguments: graphql.Arguments{
+												{
+													Name:  "version",
+													Value: 2,
+												},
+											},
+										},
+									},
+									{
+										Field: &graphql.Field{
+											Name: "E",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			want: []dto.Selection{
+				{
+					Path:    "/A/B",
+					Version: 1,
+				},
+				{
+					Path:    "/A/C/D",
+					Version: 2,
+				},
+				{
+					Path:    "/A/C/E",
+					Version: -1,
+				},
+			},
+		},
+		{
+			name: "should return error (invalid version)",
+			args: args{
+				field: graphql.Field{
+					Name: "A",
+					Arguments: graphql.Arguments{
+						{
+							Name:  "version",
+							Value: "testing",
+						},
+					},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := &DendriteService{
-				backend: tt.fields.backend,
-			}
-			got, err := s.GetSelectionsByField(tt.args.field, tt.args.base)
+			got, err := mockS.GetSelectionsByField(tt.args.field, tt.args.base)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("DendriteService.GetSelectionsByField() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("DendriteService.GetSelectionsByField() = %v, want %v", got, tt.want)
+				t.Errorf("DendriteService.GetSelectionsByField() = %#v, want %#v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDendriteService_GetObjectByPaths(t *testing.T) {
+	type args struct {
+		ctx        context.Context
+		selections []dto.Selection
+	}
+	mock.On("GetMany", context.Background(), "/A/B/C", 1).Return([]string{"1", "2"}, nil)
+	mock.On("GetMany", context.Background(), "/A/B/D", 2).Return([]string{"3"}, nil)
+	mock.On("GetManyCurrent", context.Background(), "/A/B").Return([]string{"C", "D"}, nil)
+	ctx := context.Background()
+	tests := []struct {
+		name    string
+		args    args
+		want    map[string]any
+		wantErr bool
+	}{
+		{
+			name: "should return the desired object",
+			args: args{
+				ctx: ctx,
+				selections: []dto.Selection{
+					{
+						Path:    "/A/B/C",
+						Version: 1,
+					},
+					{
+						Path:    "/A/B/D",
+						Version: 2,
+					},
+					{
+						Path:    "/A/B",
+						Version: -1,
+					},
+				},
+			},
+			want: map[string]any{
+				"A": map[string]any{
+					"B": map[string]any{
+						`/`: []string{"C", "D"},
+						"C": []string{"1", "2"},
+						"D": "3",
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "want err :invalid path",
+			args: args{
+				ctx: ctx,
+				selections: []dto.Selection{
+					{
+						Path:    "A/B/C",
+						Version: 1,
+					},
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := mockS.GetObjectByPaths(tt.args.ctx, tt.args.selections)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("DendriteService.GetObjectByPaths() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("DendriteService.GetObjectByPaths() = %v, want %v", got, tt.want)
 			}
 		})
 	}
