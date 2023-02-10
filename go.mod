@@ -4,25 +4,26 @@ go 1.18
 
 require (
 	github.com/astaclinic/astafx v0.0.0-20221214030553-1ed8260e470f
-	github.com/jackc/pgx v3.6.2+incompatible
 	github.com/jackc/pgx-zap v0.0.0-20221202020421-94b1cb2f889f
 	github.com/jackc/pgx/v5 v5.2.0
+	github.com/onsi/ginkgo/v2 v2.8.0
+	github.com/onsi/gomega v1.26.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.14.0
+	github.com/stretchr/testify v1.8.1
 	github.com/tmc/graphql v0.0.0-20170602052103-08ddf3728865
 	go.uber.org/fx v1.18.2
 )
 
 require (
-	github.com/cockroachdb/apd v1.1.0 // indirect
-	github.com/gofrs/uuid v4.4.0+incompatible // indirect
-	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/puddle/v2 v2.1.2 // indirect
-	github.com/lib/pq v1.10.7 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 )
 
@@ -71,9 +72,9 @@ require (
 	go.uber.org/multierr v1.9.0 // indirect
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.4.0 // indirect
-	golang.org/x/net v0.4.0 // indirect
-	golang.org/x/sys v0.3.0 // indirect
-	golang.org/x/text v0.5.0 // indirect
+	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/text v0.6.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
