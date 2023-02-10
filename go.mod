@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/astaclinic/astafx v0.0.0-20221214030553-1ed8260e470f
-	github.com/jackc/pgx v3.6.2+incompatible
 	github.com/jackc/pgx-zap v0.0.0-20221202020421-94b1cb2f889f
 	github.com/jackc/pgx/v5 v5.2.0
 	github.com/onsi/ginkgo/v2 v2.8.0
@@ -17,19 +16,13 @@ require (
 )
 
 require (
-	github.com/cockroachdb/apd v1.1.0 // indirect
-	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gofrs/uuid v4.4.0+incompatible // indirect
+	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
-	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/puddle/v2 v2.1.2 // indirect
-	github.com/lib/pq v1.10.7 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 )
