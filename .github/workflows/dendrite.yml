@@ -53,8 +53,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: git fetch --force --tags
-
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
 
@@ -75,6 +73,8 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: git fetch --force --tags
 
       - uses: goreleaser/goreleaser-action@v4
         with:
