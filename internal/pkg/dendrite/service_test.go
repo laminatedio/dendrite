@@ -40,6 +40,10 @@ var testConfig = []Config{
 		Path:   "/A/B",
 		Values: []string{"C", "D"},
 	},
+	{
+		Path:   "/E",
+		Values: []string{"3"},
+	},
 }
 
 func ImportTestData(ctx context.Context, configs []Config, worker backend.Backend) error {
@@ -121,6 +125,20 @@ func TestDendriteService_Query(t *testing.T) {
 						"/": []string{"C", "D"},
 					},
 				},
+			},
+			wantErr: false,
+		},
+		{
+			name:    "should get data by query (with one level)",
+			configs: testConfig,
+			args: args{
+				ctx: context.Background(),
+				query: `{
+					E
+				}`,
+			},
+			want: map[string]any{
+				"E": "3",
 			},
 			wantErr: false,
 		},
