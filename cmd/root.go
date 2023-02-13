@@ -28,6 +28,8 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(config.InitConfig)
+	cobra.OnInitialize(func() {
+		config.InitConfig(cfgFile)
+	})
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_DIR/config.yaml)")
 }
