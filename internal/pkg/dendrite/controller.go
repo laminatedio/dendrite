@@ -142,7 +142,7 @@ func (c *DendriteController) Set(ctx *gin.Context) {
 				Message: err.Error(),
 			})
 		} else {
-			ctx.JSON(http.StatusOK, object)
+			ctx.JSON(http.StatusCreated, object)
 		}
 	}
 }
@@ -163,7 +163,7 @@ func (c *DendriteController) SetMany(ctx *gin.Context) {
 				Message: err.Error(),
 			})
 		} else {
-			ctx.JSON(http.StatusOK, object)
+			ctx.JSON(http.StatusCreated, object)
 		}
 	}
 }
