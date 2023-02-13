@@ -24,7 +24,7 @@
 # Go workspace file
 go.work
 
-**/config.yaml
+config/*
 .vscode
 
 # End of https://www.toptal.com/developers/gitignore/api/go
