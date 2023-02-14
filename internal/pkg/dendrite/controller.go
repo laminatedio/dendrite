@@ -5,6 +5,7 @@ import (
 
 	"github.com/laminatedio/dendrite/internal/pkg/backend"
 	"github.com/laminatedio/dendrite/internal/pkg/dendrite/dto"
+	"go.uber.org/zap"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,11 +16,15 @@ type Error struct {
 
 type DendriteController struct {
 	dendriteService *DendriteService
+	logger          *zap.SugaredLogger
+	config          *backend.Config
 }
 
-func NewDendriteController(dendriteService *DendriteService) *DendriteController {
+func NewDendriteController(dendriteService *DendriteService, logger *zap.SugaredLogger, config *backend.Config) *DendriteController {
 	return &DendriteController{
 		dendriteService: dendriteService,
+		logger:          logger,
+		config:          config,
 	}
 }
 
@@ -142,7 +147,8 @@ func (c *DendriteController) Set(ctx *gin.Context) {
 				Message: err.Error(),
 			})
 		} else {
-			ctx.JSON(http.StatusOK, object)
+			c.logger.Infof("(From %v) Created kv with path: %v with value: %v, backend: %v", ctx.ClientIP(), json.Path, json.Value, c.config.Type)
+			ctx.JSON(http.StatusCreated, object)
 		}
 	}
 }
@@ -163,7 +169,8 @@ func (c *DendriteController) SetMany(ctx *gin.Context) {
 				Message: err.Error(),
 			})
 		} else {
-			ctx.JSON(http.StatusOK, object)
+			c.logger.Infof("(From %v) Created kv with path: %v with values: %v, backend: %v", ctx.ClientIP(), json.Path, json.Values, c.config.Type)
+			ctx.JSON(http.StatusCreated, object)
 		}
 	}
 }
