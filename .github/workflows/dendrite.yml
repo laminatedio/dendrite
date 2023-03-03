@@ -86,6 +86,12 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y-%m-%dT%H:%M:%S:%z')" >> $GITHUB_OUTPUT
 
+      - name: Install Mockery
+        run: sudo wget -c https://github.com/vektra/mockery/releases/download/v2.20.0/mockery_2.20.0_Linux_x86_64.tar.gz -O - | sudo tar -xz -C /usr/bin
+
+      - name: Generate mock files
+        run: ./genMock.sh
+
       - uses: goreleaser/goreleaser-action@v4
         with:
           distribution: goreleaser

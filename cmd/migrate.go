@@ -42,14 +42,14 @@ var migrateCmd = &cobra.Command{
 		astafxConfig.InitConfig(cfgFile)
 		config, err := config.GetConfig()
 		if err != nil {
-			logger.Fatalf("fail to get config: %v", err.Error())
+			logger.Fatalf("Fail to get config: %v", err.Error())
 			return
 		}
 
 		logger.Info("Connecting to postgres ...")
 		db, err := newPostgresConn(config.Backend.Postgres, true)
 		if err != nil {
-			logger.Fatalf("fail to get db conn: %v", err.Error())
+			logger.Fatalf("Fail to get db conn: %v", err.Error())
 			return
 		}
 		defer db.Close()
@@ -63,7 +63,7 @@ var migrateCmd = &cobra.Command{
 			if errors.As(err, &e) && e.Code == "42P04" {
 				logger.Info("The database is already existed")
 			} else {
-				logger.Fatalf("fail to init db: %v", err.Error())
+				logger.Fatalf("Fail to init db: %v", err.Error())
 				return
 			}
 		}
@@ -71,7 +71,7 @@ var migrateCmd = &cobra.Command{
 		logger.Info("Connecting to target postgres db ...")
 		dendriteDb, err := newPostgresConn(config.Backend.Postgres, false)
 		if err != nil {
-			logger.Fatalf("fail to get db conn: %v", err.Error())
+			logger.Fatalf("Fail to get db conn: %v", err.Error())
 			return
 		}
 		defer dendriteDb.Close()
@@ -80,7 +80,7 @@ var migrateCmd = &cobra.Command{
 		schema := schema.GetSchema()
 		_, err = dendriteDb.Exec(ctx, schema)
 		if err != nil {
-			logger.Fatalf("fail to init table: %v", err.Error())
+			logger.Fatalf("Fail to init table: %v", err.Error())
 			return
 		}
 
