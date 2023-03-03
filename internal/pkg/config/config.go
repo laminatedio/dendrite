@@ -37,12 +37,24 @@ func NewConfig(validate *validator.Validate) (Config, error) {
 	return config, nil
 }
 
+func GetConfig() (*Config, error) {
+	validate, err := loggerfx.RegisterLogLevelValidation(validator.New())
+	if err != nil {
+		return nil, err
+	}
+	config, err := NewConfig(validate)
+	if err != nil {
+		return nil, err
+	}
+	return &config, nil
+}
+
 func PrintConfig() error {
-	config, err := NewConfig(validator.New())
+	config, err := GetConfig()
 	if err != nil {
 		return err
 	}
-	configYaml, err := yaml.Marshal(config)
+	configYaml, err := yaml.Marshal(*config)
 	if err != nil {
 		return err
 	}

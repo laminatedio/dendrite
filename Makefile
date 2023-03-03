@@ -1,10 +1,6 @@
-ifeq ($(PREFIX),)
-	PREFIX := /usr/local
-endif
-
 .PHONY: build
 build:
-	go build -o dendrite .
+	go build -o dendrite -ldflags=" -X 'github.com/astaclinic/astafx/info.BuildDate=${BUILD_DATE}' -X 'github.com/astaclinic/astafx/info.ProgramName=${NAME}' " .
 
 .PHONY: clean
 clean:

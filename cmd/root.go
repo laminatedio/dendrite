@@ -3,7 +3,6 @@ package cmd
 import (
 	"os"
 
-	"github.com/astaclinic/astafx/config"
 	"github.com/spf13/cobra"
 )
 
@@ -28,8 +27,5 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(func() {
-		config.InitConfig(cfgFile)
-	})
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_DIR/config.yaml)")
 }
