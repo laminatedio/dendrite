@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/astaclinic/astafx/config"
 	"github.com/astaclinic/astafx/graceful"
 	"github.com/spf13/cobra"
 
@@ -13,6 +14,7 @@ var serverCmd = &cobra.Command{
 	Short: "Run the API server",
 	Long:  `Run the API server.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		config.InitConfig(cfgFile)
 		graceful.Run(app.New())
 	},
 }

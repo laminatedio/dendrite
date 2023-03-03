@@ -12,7 +12,11 @@ import (
 )
 
 type PostgresConfig struct {
-	Dsn string `mapstructure:"dsn" validate:"required"`
+	UserName string `mapstructure:"user_name" validate:"required"`
+	Password string `mapstructure:"password" validate:"required"`
+	Host     string `mapstructure:"host" validate:"required"`
+	Database string `mapstructure:"database" validate:"required"`
+	Port     string `mapstructure:"port" validate:"required"`
 }
 
 type PostgresBackend struct {
@@ -20,7 +24,8 @@ type PostgresBackend struct {
 }
 
 func NewPostgresBackend(config PostgresConfig, logger *zap.SugaredLogger) (Backend, error) {
-	pgxconfig, err := pgxpool.ParseConfig(config.Dsn)
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", config.UserName, config.Password, config.Host, config.Port, config.Database)
+	pgxconfig, err := pgxpool.ParseConfig(dsn)
 	if err != nil {
 		return nil, err
 	}
