@@ -40,8 +40,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/adrg/xdg v0.4.0 h1:RzRqFcjH4nE5C6oTAxhBtoE2IRyjBSa62SCbyPidvls=
 github.com/adrg/xdg v0.4.0/go.mod h1:N6ag73EX4wyxeaoeHctc1mas01KZgsj5tYiAIwqJE/E=
-github.com/astaclinic/astafx v0.0.0-20230303025139-69e10b6c3cd3 h1:u3LITJ9PqYIsxdfNdqS0ezXSDSFGIs4s1QzpbpkI++4=
-github.com/astaclinic/astafx v0.0.0-20230303025139-69e10b6c3cd3/go.mod h1:7IykrccqApgPK/SNn8OceZyf2nOZfWAD9R7q9qm9oss=
+github.com/astaclinic/astafx v0.0.0-20230307084634-1847179d51ef h1:sZK7ANBfd8ZE2osZaCNXDsnviIB/6bEiOP6Z+zSv+j8=
+github.com/astaclinic/astafx v0.0.0-20230307084634-1847179d51ef/go.mod h1:7IykrccqApgPK/SNn8OceZyf2nOZfWAD9R7q9qm9oss=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=

@@ -43,14 +43,12 @@ var migrateCmd = &cobra.Command{
 		config, err := config.GetConfig()
 		if err != nil {
 			logger.Fatalf("Fail to get config: %v", err.Error())
-			return
 		}
 
 		logger.Info("Connecting to postgres ...")
 		db, err := newPostgresConn(config.Backend.Postgres, true)
 		if err != nil {
 			logger.Fatalf("Fail to get db conn: %v", err.Error())
-			return
 		}
 		defer db.Close()
 
@@ -64,7 +62,6 @@ var migrateCmd = &cobra.Command{
 				logger.Info("The database is already existed")
 			} else {
 				logger.Fatalf("Fail to init db: %v", err.Error())
-				return
 			}
 		}
 
@@ -72,7 +69,6 @@ var migrateCmd = &cobra.Command{
 		dendriteDb, err := newPostgresConn(config.Backend.Postgres, false)
 		if err != nil {
 			logger.Fatalf("Fail to get db conn: %v", err.Error())
-			return
 		}
 		defer dendriteDb.Close()
 
@@ -81,7 +77,6 @@ var migrateCmd = &cobra.Command{
 		_, err = dendriteDb.Exec(ctx, schema)
 		if err != nil {
 			logger.Fatalf("Fail to init table: %v", err.Error())
-			return
 		}
 
 		logger.Info("Migrate successfully")
