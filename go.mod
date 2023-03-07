@@ -3,7 +3,7 @@ module github.com/laminatedio/dendrite
 go 1.18
 
 require (
-	github.com/astaclinic/astafx v0.0.0-20230303025139-69e10b6c3cd3
+	github.com/astaclinic/astafx v0.0.0-20230307084634-1847179d51ef
 	github.com/jackc/pgx-zap v0.0.0-20221202020421-94b1cb2f889f
 	github.com/jackc/pgx/v5 v5.2.0
 	github.com/onsi/ginkgo/v2 v2.8.0
